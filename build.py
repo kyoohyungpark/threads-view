@@ -10,6 +10,7 @@ IMG_EXT = (".jpg", ".jpeg", ".png", ".gif", ".webp")
 # (폴더명, 화면표시 라벨, 페이지 파일 접두어)
 CATEGORIES = [
     ("ssul", "오늘의 썰", "s"),
+    ("debate", "논란각 · 댓글 유도", "d"),
     ("ads", "특가·광고", "a"),
 ]
 
@@ -109,7 +110,7 @@ def main():
     # 옛 루트 페이지 정리
     for old in glob.glob(os.path.join(ROOT, "[0-9]*.html")):
         os.remove(old)
-    for pref in ("s", "a"):
+    for pref in ("s", "d", "a"):
         for old in glob.glob(os.path.join(ROOT, pref + "[0-9]*.html")):
             os.remove(old)
     sections = []
