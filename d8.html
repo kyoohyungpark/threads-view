@@ -1,5 +1,5 @@
 <!DOCTYPE html><html lang="ko"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1"><title>스레드 글 보관함</title>
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>#8 깜빡이</title>
 <style>*{box-sizing:border-box}
 body{font-family:-apple-system,BlinkMacSystemFont,"Malgun Gothic","Apple SD Gothic Neo",sans-serif;margin:0;color:#1a1a1a;background:#f4f5f7;-webkit-font-smoothing:antialiased}
 .wrap{max-width:920px;margin:0 auto;padding:24px 16px 60px}
@@ -47,6 +47,16 @@ a{text-decoration:none;color:inherit}
 .item.used .t{text-decoration:line-through;text-decoration-color:#d33}
 .item .done{display:none;margin-left:auto;font-size:12.5px;font-weight:800;color:#d33;background:#ffe9e9;padding:5px 10px;border-radius:999px;flex:none}
 .item.used .done{display:inline-block}</style></head><body><div class="wrap">
-<div class="hero">스레드 글 보관함</div>
-<div class="hero-sub">카테고리를 골라 들어가세요</div>
-<div class="cats"><a class="cat-card" style="background:linear-gradient(135deg,#7C5CFF,#B49CFF)" href="ssul.html"><span class="cat-emoji">📖</span><span><span class="cat-name">오늘의 썰</span><div class="cat-desc">매일 새로 올라오는 사연·썰 10개</div></span><span class="cat-count">10개</span></a><a class="cat-card" style="background:linear-gradient(135deg,#FF5B6E,#FF9A8B)" href="debate.html"><span class="cat-emoji">🔥</span><span><span class="cat-name">논란각 · 댓글 유도</span><div class="cat-desc">댓글 터지는 갑론을박 5개</div></span><span class="cat-count">10개</span></a><a class="cat-card" style="background:linear-gradient(135deg,#0FB5A6,#4FD6C2)" href="ads.html"><span class="cat-emoji">🛒</span><span><span class="cat-name">특가·광고</span><div class="cat-desc">쿠팡·특가 모음</div></span><span class="cat-count">1개</span></a></div></div></body></html>
+<a class="back" href="debate.html">← 논란각 · 댓글 유도 목록</a>
+<div class="posttitle">#8 깜빡이</div>
+<div class="full"><pre class="posttext" id="txt">운전할 때 깜빡이 안 켜고 훅 들어오는 차
+
+난 진짜 이게 제일 빡쳐
+사고 날 뻔한 게 한두 번이 아니야
+
+근데 또 깜빡이 켰다고 일부러 안 끼워주는 사람도 있잖아
+그건 또 그것대로 문제고
+
+운전 매너 중에 제일 꼴받는 거 뭐야?
+1번 깜빡이 안 켜기 / 2번 양보 안 하기 / 3번 칼치기</pre><button class="copy" style="background:#FF5B6E" onclick="navigator.clipboard.writeText(document.getElementById('txt').innerText).then(()=>{this.innerText='\u2705 \ubcf5\uc0ac\ub428!';setTimeout(()=>this.innerText='\uae00 \uc804\uccb4 \ubcf5\uc0ac',1500)})">글 전체 복사</button></div>
+<div><label class="useck"><input type="checkbox" id="usedck"> 이 글 썼어 (체크하면 줄 그어짐)</label></div></div><script>(function(){var K='used:debate/08_깜빡이';var b=document.getElementById('usedck'),t=document.getElementById('txt');function a(v){t.classList.toggle('used',v);}var on=localStorage.getItem(K)==='1';b.checked=on;a(on);b.addEventListener('change',function(){localStorage.setItem(K,b.checked?'1':'0');a(b.checked);});})();</script></body></html>
