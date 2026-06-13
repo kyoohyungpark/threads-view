@@ -82,7 +82,15 @@ a{text-decoration:none;color:inherit}
 .copy{font-size:15px;font-weight:700;padding:12px 20px;border:none;border-radius:12px;color:#fff;cursor:pointer;margin-top:14px;transition:filter .12s}
 .copy:hover{filter:brightness(1.07)}
 .copy:active{transform:scale(.98)}
-.posttitle{font-size:20px;font-weight:800;margin:4px 0 20px;letter-spacing:-.3px}"""
+.posttitle{font-size:20px;font-weight:800;margin:4px 0 20px;letter-spacing:-.3px}
+/* 사용 표시 */
+.posttext.used{text-decoration:line-through;text-decoration-thickness:2px;text-decoration-color:#d33;opacity:.5}
+.useck{display:inline-flex;align-items:center;gap:9px;margin-top:20px;padding:12px 16px;background:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.05);font-size:15px;font-weight:700;color:#444;cursor:pointer;user-select:none}
+.useck input{width:20px;height:20px;cursor:pointer;accent-color:#d33}
+.item.used{opacity:.45}
+.item.used .t{text-decoration:line-through;text-decoration-color:#d33}
+.item .done{display:none;margin-left:auto;font-size:12.5px;font-weight:800;color:#d33;background:#ffe9e9;padding:5px 10px;border-radius:999px;flex:none}
+.item.used .done{display:inline-block}"""
 
 def grad(c):
     return "linear-gradient(135deg,%s,%s)" % (c[3], c[4])
@@ -114,9 +122,10 @@ def category_html(c, posts):
         thumb = ('<img src="src/%s/%s/%s" alt="">' % (p["cat"], html.escape(p["name"]), html.escape(p["img"]))
                  if p["img"] else '')
         preview = html.escape((p["text"][:70] or p["title"]).replace("\n", " "))
-        items.append('<a class="item" href="%s"><span class="num" style="background:%s">%d</span>%s'
-                     '<span class="t">%s</span></a>'
-                     % (page_name(p), c1, p["num"], thumb, preview))
+        key = "used:%s/%s" % (p["cat"], p["name"])
+        items.append('<a class="item" data-k="%s" href="%s"><span class="num" style="background:%s">%d</span>%s'
+                     '<span class="t">%s</span><span class="done">✓ 사용함</span></a>'
+                     % (html.escape(key), page_name(p), c1, p["num"], thumb, preview))
     body = "".join(items) if items else '<p style="color:#999">아직 글이 없어요</p>'
     return """<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1"><title>%s</title>
@@ -124,7 +133,9 @@ def category_html(c, posts):
 <a class="back" href="index.html">← 홈으로</a>
 <div class="catbar" style="background:%s"><span class="cat-emoji">%s</span>
 <span class="nm">%s</span><span class="ct">%d개</span></div>
-<div class="list">%s</div></div></body></html>""" % (
+<div class="list">%s</div></div>
+<script>document.querySelectorAll('.item[data-k]').forEach(function(a){if(localStorage.getItem(a.dataset.k)==='1')a.classList.add('used');});</script>
+</body></html>""" % (
         html.escape(label), BASE_CSS, grad(c), emoji, html.escape(label), len(posts), body)
 
 def post_html(p):
@@ -144,13 +155,20 @@ def post_html(p):
                 % (img_tag, text_esc, copy_btn))
     else:
         body = '<div class="full"><pre class="posttext" id="txt">%s</pre>%s</div>' % (text_esc, copy_btn)
+    key_js = ("used:%s/%s" % (p["cat"], p["name"])).replace("\\", "\\\\").replace("'", "\\'")
+    used_ui = '<div><label class="useck"><input type="checkbox" id="usedck"> 이 글 썼어 (체크하면 줄 그어짐)</label></div>'
+    script = ("<script>(function(){var K='%s';var b=document.getElementById('usedck'),"
+              "t=document.getElementById('txt');function a(v){t.classList.toggle('used',v);}"
+              "var on=localStorage.getItem(K)==='1';b.checked=on;a(on);"
+              "b.addEventListener('change',function(){localStorage.setItem(K,b.checked?'1':'0');a(b.checked);});})();</script>") % key_js
     return """<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1"><title>#%d %s</title>
 <style>%s</style></head><body><div class="wrap">
 <a class="back" href="%s.html">← %s 목록</a>
 <div class="posttitle">#%d %s</div>
-%s</div></body></html>""" % (p["num"], html.escape(p["title"]), BASE_CSS,
-        p["cat"], html.escape(c[1]), p["num"], html.escape(p["title"]), body)
+%s
+%s</div>%s</body></html>""" % (p["num"], html.escape(p["title"]), BASE_CSS,
+        p["cat"], html.escape(c[1]), p["num"], html.escape(p["title"]), body, used_ui, script)
 
 def main():
     # 옛 페이지 정리
